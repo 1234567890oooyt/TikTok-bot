@@ -14,6 +14,24 @@ import msvcrt, sys
 
 chromedriver_autoinstaller.install()
 
+def id_check():
+    global x
+    try:
+        a =input("\n Type of issue: ")
+        if int(a) == 1:
+                x =  2
+        elif int(a) == 2:
+            x =  5
+        elif int(a) == 3:
+           x =  6
+        elif int(a) == 4:
+            x =  7
+        elif a != 1 or 2 or 3 or 4:
+            id_check()
+    except:
+        x = id_check()
+    return x
+
 
 
 
@@ -83,8 +101,9 @@ if auto == 5:
     Shares = 0
 
 if auto == 6:
-      
-    vidUrl = input("TikTok ban video URL: ")
+    print(" 1. Violence \n 2. Bullying \n 3. Behavior with elements of enmity \n 4. Terrorism \n ")
+    div_id=id_check()
+    vidUrl = input(" TikTok ban video URL: ")
     start = time()
     time_elapsed = strftime('%H:%M:%S', gmtime(time() - start))
     #device = "Iphone "
@@ -339,7 +358,9 @@ def loop5():
         loop5()
 
 def loop6():
-    
+
+
+
     sleep(4)
     
     try:
@@ -368,7 +389,7 @@ def loop6():
 
     try:
         sleep(1)
-        element_3 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/label[6]").click()
+        element_3 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/label[{}]".format(div_id)).click()
     except:
         print("No isue type buttoon find")
         driver.refresh()
@@ -384,6 +405,34 @@ def loop6():
         driver.refresh()
         loop6()
     except:
+
+
+        try:
+            sleep(2)
+            possible_element_4 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/label[1]/div").click()
+            sleep(1)
+            
+            try:
+                sleep(2)
+                element_4 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/div[3]/button").click()
+                sleep(1)
+                print("Isue sended !")
+                driver.refresh()
+                loop6()
+            except:
+                print("Isue NOT sended")
+                driver.refresh()
+                loop6()
+
+
+        except:
+            print("Isue Type not find")
+            driver.refresh()
+            loop6()
+
+
+
+
         print("Isue NOT sended")
         driver.refresh()
         loop6()
