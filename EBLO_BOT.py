@@ -8,6 +8,7 @@ import chromedriver_autoinstaller
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+
 import msvcrt, sys
 
 
@@ -40,7 +41,7 @@ logo="""\
 """
 print(logo)
 
-print("1. View.\n2. Heart.\n3. Followers.\n4. Shares.\n5. Comment.\n")
+print("1. View.\n2. Heart.\n3. Followers.\n4. Shares.\n5. Comment.\n6. Ban\n")
 
 auto = int(input("Mode: "))
 
@@ -80,6 +81,27 @@ if auto == 5:
     Hearts = 0
     Followers = 0
     Shares = 0
+
+if auto == 6:
+      
+    vidUrl = input("TikTok ban video URL: ")
+    start = time()
+    time_elapsed = strftime('%H:%M:%S', gmtime(time() - start))
+    #device = "Iphone "
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--mute-audio")
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    #mobile_emulation = { "deviceName": device }
+    #chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+    driver = webdriver.Chrome( options=chrome_options)
+    driver.set_window_size(1024, 650)
+
+    Views = 0
+    Hearts = 0
+    Followers = 0
+    Shares = 0
+
+
 
 
 def beautify(arg):
@@ -316,6 +338,74 @@ def loop5():
         driver.refresh()
         loop5()
 
+def loop6():
+    
+    sleep(4)
+    
+    try:
+        action = webdriver.ActionChains(driver)
+        element = driver.find_element_by_xpath("/html/body/div[2]/div[2]/div[2]/div[1]/div[3]/div[1]/div[1]/div[3]/button[4]")
+        action.move_to_element(element)
+        action.perform()
+        sleep(1)
+    except:
+        print("EROR") #Cant moowe cursor into ... element
+        driver.refresh()
+        loop6()
+
+
+        
+    try:
+        element_2 = driver.find_element_by_xpath("/html/body/div[7]/div/div/div/div[2]/div").click()
+        sleep(1)
+    except:
+        print("No isue buttoon find")
+        driver.refresh()
+        loop6()
+
+
+
+
+    try:
+        sleep(1)
+        element_3 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/label[6]").click()
+    except:
+        print("No isue type buttoon find")
+        driver.refresh()
+        loop6()        
+
+        
+
+    try:
+        sleep(2)
+        element_4 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/div[3]/button").click()
+        sleep(1)
+        print("Isue sended !")
+        driver.refresh()
+        loop6()
+    except:
+        print("Isue NOT sended")
+        driver.refresh()
+        loop6()
+
+
+
+
+
+    # try:
+    #     sleep(2)
+    #   #  element_5 = driver.find_element_by_xpath("//*[@id=\"tux-modal-7ksyet3q545\"]/div/div/button").click()
+    #     element_5 = driver.find_element(By.CLASS_NAME, "tiktok-1l5yils-ButtonFinish ezqf9p619")
+    #     sleep(1)
+    #     driver.refresh()
+    #     loop6()
+    # except:
+    #     print("No OK find")
+    #     driver.refresh()
+    #     loop6()
+
+
+
 clear()
 
 print(logo)
@@ -360,9 +450,6 @@ elif auto == 4:
 
 
 
-
-
-
 elif auto == 5:
     driver.get("https://zefoy.com/")
     
@@ -371,8 +458,17 @@ elif auto == 5:
     
     a.start()
     b.start()
-    
+
 elif auto == 6:
+    driver.get(vidUrl)
+    
+    a = threading.Thread(target=title5)
+    b = threading.Thread(target=loop6)
+    
+    a.start()
+    b.start()
+    
+elif auto == 7:
     print("[+] This program was created by @evgengrciv \n Instagram: https://www.instagram.com/evgengrciv/.")
     input()
 
