@@ -1,3 +1,4 @@
+from lib2to3.pgen2 import driver
 from xml.etree.ElementPath import xpath_tokenizer
 from selenium import webdriver
 from os import system, name
@@ -8,11 +9,14 @@ import chromedriver_autoinstaller
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
 import msvcrt, sys
-
-
+from selenium.webdriver.common.proxy import Proxy, ProxyType
+import random
 chromedriver_autoinstaller.install()
+
+
+
+
 
 def id_check():
     global x
@@ -46,18 +50,31 @@ clear()
 system('title EBLO BOT')
 
 logo="""\
-▓█████  ▄▄▄▄    ██▓     ▒█████      ▄▄▄▄    ▒█████  ▄▄▄█████▓
-▓█   ▀ ▓█████▄ ▓██▒    ▒██▒  ██▒   ▓█████▄ ▒██▒  ██▒▓  ██▒ ▓▒
-▒███   ▒██▒ ▄██▒██░    ▒██░  ██▒   ▒██▒ ▄██▒██░  ██▒▒ ▓██░ ▒░
-▒▓█  ▄ ▒██░█▀  ▒██░    ▒██   ██░   ▒██░█▀  ▒██   ██░░ ▓██▓ ░ 
-░▒████▒░▓█  ▀█▓░██████▒░ ████▓▒░   ░▓█  ▀█▓░ ████▓▒░  ▒██▒ ░ 
-░░ ▒░ ░░▒▓███▀▒░ ▒░▓  ░░ ▒░▒░▒░    ░▒▓███▀▒░ ▒░▒░▒░   ▒ ░░   
- ░ ░  ░▒░▒   ░ ░ ░ ▒  ░  ░ ▒ ▒░    ▒░▒   ░   ░ ▒ ▒░     ░    
-   ░    ░    ░   ░ ░   ░ ░ ░ ▒      ░    ░ ░ ░ ░ ▒    ░      
-   ░  ░ ░          ░  ░    ░ ░      ░          ░ ░           
-             ░         by @evgengrciv            ░                   
+    dMMMMMP dMMMMb  dMP    .aMMMb         dMMMMb  .aMMMb dMMMMMMP 
+   dMP     dMP"dMP dMP    dMP"dMP        dMP"dMP dMP"dMP   dMP    
+  dMMMP   dMMMMK" dMP    dMP dMP        dMMMMK" dMP dMP   dMP     
+ dMP     dMP.aMF dMP    dMP.aMP        dMP.aMF dMP.aMP   dMP      
+dMMMMMP dMMMMP" dMMMMMP VMMMP"        dMMMMP"  VMMMP"   dMP       
+                                                                  
+                        by @evgengrciv            
 """
 print(logo)
+
+
+
+
+try:
+    
+    proxy_list = []
+    with open("proxy.txt", "r") as f:
+        for line in f.readlines():
+            r_line = line.replace('\n', '') 
+            proxy_list.append(r_line)
+
+except:
+    print("Check that 'proxy.txt' file exist")
+    sleep(400)
+
 
 print("1. View.\n2. Heart.\n3. Followers.\n4. Shares.\n5. Comment.\n6. Ban\n")
 
@@ -112,15 +129,10 @@ if auto == 6:
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
     #mobile_emulation = { "deviceName": device }
     #chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
-    driver = webdriver.Chrome( options=chrome_options)
-    driver.set_window_size(1024, 650)
+    # driver = webdriver.Chrome( options=chrome_options)
+    #driver.set_window_size(1024, 650)
 
-    Views = 0
-    Hearts = 0
-    Followers = 0
-    Shares = 0
-
-
+    
 
 
 def beautify(arg):
@@ -358,7 +370,23 @@ def loop5():
         loop5()
 
 def loop6():
+    try:
+        proxy_ip_port = random.choice(proxy_list)
+        print("Used proxy: " ,proxy_ip_port)
+        proxy = Proxy()
+        proxy.proxy_type = ProxyType.MANUAL
+        proxy.http_proxy = proxy_ip_port
+        proxy.ssl_proxy = proxy_ip_port
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        capabilities = webdriver.DesiredCapabilities.CHROME
+        proxy.add_to_capabilities(capabilities)
+        driver= webdriver.Chrome('chromedriver.exe', desired_capabilities=capabilities, options = chrome_options)
+        driver.set_window_size(1024, 650)
+        driver.get(vidUrl)
 
+    except:
+        print("Please input your proxy list in 'proxy.txt' file or check proxy format inside")
+        sleep(400)
 
 
     sleep(4)
@@ -371,7 +399,7 @@ def loop6():
         sleep(1)
     except:
         print("EROR") #Cant moowe cursor into ... element
-        driver.refresh()
+        driver.quit()
         loop6()
 
 
@@ -381,7 +409,7 @@ def loop6():
         sleep(1)
     except:
         print("No isue buttoon find")
-        driver.refresh()
+        driver.quit()
         loop6()
 
 
@@ -392,7 +420,7 @@ def loop6():
         element_3 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/label[{}]".format(div_id)).click()
     except:
         print("No isue type buttoon find")
-        driver.refresh()
+        driver.quit()
         loop6()        
 
         
@@ -402,7 +430,7 @@ def loop6():
         element_4 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/div[3]/button").click()
         sleep(1)
         print("Isue sended !")
-        driver.refresh()
+        driver.quit()
         loop6()
     except:
 
@@ -417,24 +445,24 @@ def loop6():
                 element_4 = driver.find_element_by_xpath("/html/body/div[8]/div/div[2]/div/div/div[2]/div/div/section/form/div[2]/div[3]/button").click()
                 sleep(1)
                 print("Isue sended !")
-                driver.refresh()
+                driver.quit()
                 loop6()
             except:
                 print("Isue NOT sended")
-                driver.refresh()
+                driver.quit()
                 loop6()
 
 
         except:
             print("Isue Type not find")
-            driver.refresh()
+            driver.quit()
             loop6()
 
 
 
 
         print("Isue NOT sended")
-        driver.refresh()
+        driver.quit()
         loop6()
 
 
@@ -459,6 +487,8 @@ clear()
 
 print(logo)
 print("Log:")
+
+
 
 if auto == 1:
     driver.get("https://zefoy.com/")
@@ -509,9 +539,9 @@ elif auto == 5:
     b.start()
 
 elif auto == 6:
-    driver.get(vidUrl)
     
     a = threading.Thread(target=title5)
+    print('Your proxys: ', proxy_list)
     b = threading.Thread(target=loop6)
     
     a.start()
