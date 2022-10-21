@@ -371,8 +371,15 @@ def loop5():
 
 def loop6():
     try:
-        proxy_ip_port = random.choice(proxy_list)
-        print("Used proxy: " ,proxy_ip_port)
+        try:
+            err_proxy=False
+            proxy_ip_port = random.choice(proxy_list)
+            print("Used proxy: " ,proxy_ip_port)
+        except:
+            print("Please input your proxy list in 'proxy.txt' file or check proxy format inside")
+            err_proxy=True
+            
+       
         proxy = Proxy()
         proxy.proxy_type = ProxyType.MANUAL
         proxy.http_proxy = proxy_ip_port
@@ -385,11 +392,12 @@ def loop6():
         driver.get(vidUrl)
 
     except:
-        print("Please input your proxy list in 'proxy.txt' file or check proxy format inside")
-        sleep(400)
+        if err_proxy != True:
+            print("Cant open window")
+        sleep(4)
 
 
-    sleep(1)
+    sleep(2)
     
     try:
         action = webdriver.ActionChains(driver)
@@ -398,7 +406,7 @@ def loop6():
         action.perform()
         sleep(1)
     except:
-        print("EROR") #Cant moowe cursor into ... element
+        print("EROR Proxy dont work or cant move cursor into ... element") #
         driver.quit()
         loop6()
 
