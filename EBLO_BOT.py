@@ -389,7 +389,7 @@ def loop6():
         sleep(400)
 
 
-    sleep(4)
+    sleep(1)
     
     try:
         action = webdriver.ActionChains(driver)
